@@ -15,16 +15,21 @@ Early development - not ready for production!
     var userRepo = new UserRepository();
 
     // fetching data
-    var users = userRepo.findAll();
-    var user = userRepo.find(1);
-    var employees = userRepo.findBy({group:'employee'});
-    var admin = userRepo.findOneBy({group:'admin'});
+    var usersRequest = userRepo.findAll();
+    var userRequest = userRepo.find(1);
+    var employeesRequest = userRepo.findBy({group:'employee'});
+    var adminRequest = userRepo.findOneBy({group:'admin'});
+    // jQuery promises
+    $.when(usersRequest).done(function (response) {
+        var view = new UsersListView({collection: response});
+        // etc...
+    });
 
     // insert new model
     var modelData = {
         username: 'ljenkins'
     };
-    // uses jQuery promises
+    // jQuery promises
     var creatingUser = userRepo.insert(users, modelData);
     $.when(creatingUser).done(function (response) {});
 
