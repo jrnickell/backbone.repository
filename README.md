@@ -46,13 +46,16 @@ Save new models with a collection or stand-alone, and update existing models:
     };
 
     // add to an existing collection
-    var savingUser = userRepo.insert(this.userCollection, modelData);
+    var userCollection = this.userCollection;
+    var savingUser = userRepo.insert(userCollection, modelData);
     $.when(savingUser).done(function (response) { /* code stuff */ });
 
     // persist or update a model
-    var savingUser = userRepo.save(this.user, modelData);
+    var user = new User();
+    var savingUser = userRepo.save(user, modelData);
     $.when(savingUser).done(function (response) { /* code stuff */ });
 
     // remove a model from persistence and any collections
-    var removingUser = userRepo.remove(this.user);
+    var user = this.user;
+    var removingUser = userRepo.remove(user);
     $.when(removingUser).done(function (response) { /* code stuff */ });
