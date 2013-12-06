@@ -30,7 +30,7 @@ Fetch models or collections using the built-in methods, or create your own:
 Use criteria to filter a result:
 
     // fetch data
-    var findingUser = userRepo.findOneBy({username:'wmozart'});
+    var findingUser = userRepo.findOneBy({username: 'wmozart'});
 
     // uses jQuery promises
     $.when(findingUser).done(function (response) {
