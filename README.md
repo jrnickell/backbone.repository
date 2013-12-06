@@ -38,7 +38,7 @@ Use criteria to filter a result:
         // etc...
     });
 
-Save new models with a collection or stand-alone, and update existing models:
+Save new models with a collection or stand-alone, and update or remove existing models:
 
     // new model data
     var modelData = {
