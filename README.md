@@ -3,40 +3,56 @@ Backbone.Repository
 
 Repository plugin for Backbone
 
-Early development - not ready for production!
----------------------------------------------
+**Early development - not ready for production!**
 
-### Usage examples:
+### Usage
 
+Fetch models or collections using the built-in methods, or create your own:
+
+    // extending Backbone.Repository
     var UserRepository = Backbone.Repository.extend({
         modelType: User,
         collectionType: UserCollection
     });
+
+    // create an instance
     var userRepo = new UserRepository();
 
-    // fetching data
-    var usersRequest = userRepo.findAll();
-    var userRequest = userRepo.find(1);
-    var employeesRequest = userRepo.findBy({group:'employee'});
-    var adminRequest = userRepo.findOneBy({group:'admin'});
-    // jQuery promises
-    $.when(usersRequest).done(function (response) {
+    // fetch data
+    var findingUsers = userRepo.findAll();
+
+    // uses jQuery promises
+    $.when(findingUsers).done(function (response) {
         var view = new UsersListView({collection: response});
         // etc...
     });
 
-    // insert new model
+Use criteria to filter a result:
+
+    // fetch data
+    var findingUser = userRepo.findOneBy({username:'wmozart'});
+
+    // uses jQuery promises
+    $.when(findingUser).done(function (response) {
+        var view = new UserDetailView({model: response});
+        // etc...
+    });
+
+Save new models with a collection or stand-alone, and update existing models:
+
+    // new model data
     var modelData = {
         username: 'ljenkins'
     };
-    // jQuery promises
-    var creatingUser = userRepo.insert(users, modelData);
-    $.when(creatingUser).done(function (response) {});
 
-    // update existing model
-    var updatingUser = userRepo.update(user, modelData);
-    $.when(updatingUser).done(function (response) {});
+    // add to an existing collection
+    var savingUser = userRepo.insert(this.userCollection, modelData);
+    $.when(savingUser).done(function (response) { /* code stuff */ });
 
-    // remove a model
-    var removingUser = userRepo.remove(user);
-    $.when(removingUser).done(function (response) {});
+    // persist or update a model
+    var savingUser = userRepo.save(this.user, modelData);
+    $.when(savingUser).done(function (response) { /* code stuff */ });
+
+    // remove a model from persistence and any collections
+    var removingUser = userRepo.remove(this.user);
+    $.when(removingUser).done(function (response) { /* code stuff */ });

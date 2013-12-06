@@ -74,37 +74,22 @@
         // --------------------------
         // Fetches a set of models by search criteria
         //
-        // param object  criteria   Attributes to match
+        // param object  criteria   Attribute hash to match
         // param object  parameters Additional data to send
         // param boolean first      True to return the first match only
         //
         // returns jQuery.Promise
         findBy: function (criteria, parameters, first) {
-            var defer = $.Deferred();
-            var promise = defer.promise();
             var collection = new this.collectionType();
-            collection.fetch({
-                success: function (data, response, options) {
-                    if (first) {
-                        defer.resolve(data.findWhere(criteria));
-                    } else {
-                        defer.resolve(data.where(criteria));
-                    }
-                },
-                error: function (data, response, options) {
-                    defer.resolve(response.responseJSON);
-                },
-                data: parameters
-            });
 
-            return promise;
+            return this._fetchWhere(collection, criteria, parameters, first);
         },
 
         // Backbone.Repository.findOneBy
         // -----------------------------
         // Fetches a single model by search criteria
         //
-        // param object criteria   Attributes to match
+        // param object criteria   Attribute hash to match
         // param object parameters Additional data to send
         //
         // returns jQuery.Promise
@@ -114,7 +99,7 @@
 
         // Backbone.Repository.insert
         // --------------------------
-        // Persists a new model to the collection
+        // Persists a new model to a collection
         //
         // param Backbone.Collection collection The collection instance
         // param object              data       The model attributes
@@ -132,9 +117,21 @@
             return promise;
         },
 
+        // Backbone.Repository.save
+        // ------------------------
+        // Alias for Backbone.Repository.update
+        //
+        // param Backbone.Model model The model instance
+        // param object         data  The model attributes
+        //
+        // returns jQuery.Promise
+        save: function (model, data) {
+            return this.update(model, data);
+        },
+
         // Backbone.Repository.update
         // --------------------------
-        // Updates an existing model
+        // Saves a model apart from a collection
         //
         // param Backbone.Model model The model instance
         // param object         data  The model attributes
@@ -180,6 +177,25 @@
             object.fetch({
                 success: _.bind(this._deferSuccess, defer),
                 error: _.bind(this._deferError, defer),
+                data: parameters
+            });
+
+            return promise;
+        },
+
+        // Handles criteria read operation
+        // internal
+        // returns jQuery.Promise
+        _fetchWhere: function (collection, criteria, parameters, first) {
+            var defer = $.Deferred();
+            var promise = defer.promise();
+            collection.fetch({
+                success: function (data, response, options) {
+                    defer.resolve(first ? data.findWhere(criteria) : data.where(criteria));
+                },
+                error: function (data, response, options) {
+                    defer.resolve(response.responseJSON);
+                },
                 data: parameters
             });
 
