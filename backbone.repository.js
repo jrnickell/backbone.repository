@@ -2,7 +2,7 @@
 // -------------------
 // v0.1.0
 //
-// Copyright (c)2013 John Nickell
+// Copyright (c)2013-2014 John Nickell
 // Distributed under MIT license
 (function (root, factory) {
 
@@ -194,7 +194,7 @@
                     defer.resolve(first ? data.findWhere(criteria) : data.where(criteria));
                 },
                 error: function (data, response, options) {
-                    defer.resolve(response.responseJSON);
+                    defer.reject(response.responseJSON ? response.responseJSON : response);
                 },
                 data: parameters
             });
@@ -213,7 +213,7 @@
         // internal
         // returns void
         _deferError: function (data, response, options) {
-            this.resolve(response.responseJSON);
+            this.reject(response.responseJSON ? response.responseJSON : response);
         }
 
     });
