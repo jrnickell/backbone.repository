@@ -213,7 +213,7 @@
         // internal
         // returns void
         _deferError: function (data, response, options) {
-            this.reject(response.responseJSON ? response.responseJSON : response);
+            this.reject(response.responseText ? response.responseText : response);
         }
 
     });
