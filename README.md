@@ -43,6 +43,7 @@ Use criteria to filter a result:
         })
         .fail(function (response) {
             var jsonResponse = $.parseJSON(response);
+            // etc...
         });
 
 Save new models with a collection or stand-alone, and update or remove existing models:
