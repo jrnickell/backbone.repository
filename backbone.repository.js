@@ -2,7 +2,7 @@
 // -------------------
 // v0.1.0
 //
-// Copyright (c)2013-2014 John Nickell
+// Copyright (c)2013-2015 John Nickell
 // Distributed under MIT license
 (function (root, factory) {
 
